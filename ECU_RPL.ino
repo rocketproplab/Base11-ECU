@@ -1,133 +1,178 @@
 #define SERIAL_FREQUENCY 57600
+#define COMMAND_BOX 1 //Serial1
+#define FLIGHT_COMPUTER 2 //Serial2
+#define LENGTH_CHECKSUM 2
+#define PACKAGE_LENGTH 11
+#define REPEAT_ID "RP"
+#define xDATA "xxxxx"
 
 String package;
 String packageID;
 String packageData;
-int packageSequence;
-int packageChecksum;
+String packageChecksum;
+int sender;
 int decodeCount = 0;
-int lastPackageSequence;
+boolean processPackage = false;
 
 void setup() {
   // set up Serial
-  Serial1.begin(SERIAL_FREQUENCY);
+  Serial.begin(SERIAL_FREQUENCY);
+  //Serial2.begin(SERIAL_FREQUENCY);
 }
 
 void loop() {
   //TODO checkSerial starts at beginning of package
-  if (Serial1.available() > 0) {
-    int checkSumIndex = 0;
-    
-    package = Serial1.readString();
-    
-    //decode the package to the different components
-    for(int i = 0; i < package.length(); i++) {
-      if(package.charAt(i) == ',') {
-        decodeCount++;
-        continue;
-      }
-      switch(decodeCount) {
-        case 0:
-        packageID += package.charAt(i); 
-        break;
+  /*
+  if (Serial1.available() >= PACKAGE_LENGTH) {
 
-        case 1:
-        packageData += package.charAt(i); 
-        break;
+    //assign sender to active serial port
+    sender = 1;
 
-        case 2:
-        packageSequence = int(package.charAt(i));
-        break;
+    //read package from Serial 1
+    package = Serial1.readStringUntil('\n');
+    Serial1.readString();
 
-        case 3:
-        packageChecksum = int(package.charAt(i));
-        if(checkSumIndex == 0) {
-          packageChecksum *= 10; 
-          checkSumIndex++;
-        } else {
-          packageChecksum += int(package.charAt(i));
-          
-        }
-        break;
+    if (package.length() != PACKAGE_LENGTH) {
 
-        default:
-        //TODO Error
-        break;
-      }
+      //request repeat package
+      package = createPackage(REPEAT_ID, xDATA);
+      sendPackage(package, sender);
+      return;
     }
+
+    processPackage = true;
+
+  } else */ if (Serial.available() >= PACKAGE_LENGTH) {
+
+    //assign sender to active serial port
+    sender = 2;
+
+    //read package from Serial 1
+    package = Serial.readStringUntil(';');
+    Serial.readString();
+    //Serial.println(package);
+    if (package.length() != PACKAGE_LENGTH) {
+
+      //Serial2.readString();
+      //request repeat package
+      package = createPackage(REPEAT_ID, xDATA);
+      sendPackage(package, sender);
+      Serial.println("Package corrputed");
+      return;
+    }
+
+    processPackage = true;
   }
 
-  //check if the calculated checksum equals the sent checksum, if not, request repeat package
-  if(calculateChecksum(package) != packageChecksum) {
-    //TODO: request repeat package
-  }
+  if (processPackage) {
 
-  //check if the sequence is consistent, if not, request repeat package
-  if(!checkPackageSequence(packageSequence)) {
-    //TODO: request repeat package
-  }
+    //parse package
+    parsePackage(package);
 
-  //take actions according to the packageID
-  executePackage(packageID);
+    //check if the calculated checksum equals the sent checksum, if not, request repeat package
+    if (calculateChecksum(packageID + "," + packageData + ",") != packageChecksum.toInt()) {
+
+      //request repeat package
+      package = createPackage(REPEAT_ID, xDATA);
+      sendPackage(package, sender);
+      return;
+    }
+
+    //take actions according to the packageID
+    executePackage(packageID);
+
+    processPackage = false;
+
+    Serial.println("Package processed");
+  }
 }
+
 
 //calculates the checksum and returns it
 int calculateChecksum(String package) {
   int addedASCII = 0;
-  for(int i = 0; i < package.length(); i++) {
+
+  //loop through the package, but leave out the checksum for calculating the checksum
+  for (int i = 0; i < package.length(); i++) {
     addedASCII += int(package.charAt(i));
   }
   int calculatedChecksum = addedASCII % 100;
   return calculatedChecksum;
 }
 
-//evaluates if the sequence is consistent
-boolean checkPackageSequence(int packageSequence) {
-  if(packageSequence == 0) {
-    if(packageSequence == (lastPackageSequence - 9) {
-      lastPackageSequence = 0;
-      return true;
-    } else {
-      return false;
-    }
+//take actions according to the packageID
+void executePackage(String packageID) {
+  if (packageID.equals("VS")) {
+
+  } else if (packageID.equals("HB")) {
+
+  } else if (packageID.equals("DS")) {
+
+  } else if (packageID.equals("RP")) {
+
+  } else if (packageID.equals("RS")) {
+
+  } else if (packageID.equals("ER")) {
+
+  } else if (packageID.equals("OK")) {
+
   } else {
-    if(packageSequence == (lastPackageSequence + 1)) {
-      lastPackageSequence++;
-      return true; 
-    } else {
-      return false;
-    }
+    //TODO Package not identified
   }
 }
 
-boolean executePackage(String packageID) {
-  switch(packageID) {
-    case VS:
-    //TODO:
-    break;
+//sends a package to a specified receiver one for each receiver
+void sendPackage(String package, int sender) {
 
-    case HB:
-    //TODO:
-    break;
+  if (sender == 1) {
 
-    case DS:
-    //TODO:
-    break;
+    //send to command box
+    //Serial.print(package);
 
-    case RP:
-    //TODO:
-    break;
+  } else if (sender == 2) {
 
-    case RS:
-    //TODO:
-    break;
+    //send to flight computer
+    Serial.print(package);
+  }
+}
 
-    case ER:
-    //TODO:
-    break;
+//assembles the different components to a package
+String createPackage(String packageID, String packageData) {
+  package = packageID + "," + packageData + ",";
+  package += calculateChecksum(package);
+  package += ';';
+  return package;
+}
 
-    case OK:
-    //TODO:
-    break;
+void parsePackage(String package) {
+
+  decodeCount = 0;
+  packageID = "";
+  packageData = "";
+  packageChecksum = "";
+
+  //decode the package to the different components
+  for (int i = 0; i < package.length(); i++) {
+    if (package.charAt(i) == ',') {
+      decodeCount++;
+      continue;
+    }
+    switch (decodeCount) {
+      case 0:
+        packageID += package.charAt(i);
+        break;
+
+      case 1:
+        packageData += package.charAt(i);
+        break;
+
+      case 2:
+        packageChecksum += package.charAt(i);
+        break;
+
+      default:
+        //TODO Error
+        break;
+    }
   }
 }
