@@ -14,7 +14,7 @@
 #define READ_PTS_AND_TS_TIME_INTERVAL 1000 //1s time interval to read sensors
 #define PACKAGE_DATA_LENGTH 5 //data of package has 5 digits
 
-//PINS
+//PINS - subject to change depending on the needs of the other departments
 //Pressure
 #define P_0 A0
 #define P_1 A1
@@ -45,12 +45,17 @@ String packageChecksum;
 //who sent the package
 int sender;
 
-//other globals
+//other code specific globals
 int decodeCount = 0;
 boolean processPackage = false;
 unsigned long time;
 boolean commandBoxIsConnected = false;
 
+/*
+ * Function: setup
+ * ---------------
+ * sets up the pins and starts the Serial communication
+ */
 void setup() {
   
   // set up Serials
@@ -72,6 +77,13 @@ void setup() {
   pinMode(AS, INPUT);
 }
 
+/*
+ * Function: loop
+ * --------------
+ * main loop of the program
+ * checks if a package is avaible from any sender, proccesses it if so and
+ * takes actions accordingly
+ */
 void loop() {
 
   //check commandBox Serial until it is disconnected
@@ -166,7 +178,17 @@ void loop() {
 }
 
 
-//check if package is corrupted by calculating the checksum
+/*
+ * Function: calculateChecksum
+ * ---------------------------
+ * adds the ASCII values of the package characters(except the checksum) together and 
+ * takes modulo 100. If the checksum sent differs to the one calculated, the package 
+ * is corrupted and needs to be sent again
+ * 
+ * package: the package to check
+ * 
+ * returns: the calculated checksum
+ */
 int calculateChecksum(String package) {
   int addedASCII = 0;
 
@@ -180,7 +202,15 @@ int calculateChecksum(String package) {
   return calculatedChecksum;
 }
 
-//take actions according to the packageID
+/*
+ * Function: exectuePackage
+ * ------------------------
+ * takes actions according to the package ID and data
+ * i.e. toggling the valves, responding to heartbeat or if the ID is not
+ * identified, repeat package request
+ * 
+ * packageID: the package ID to respond to
+ */
 void executePackage(String packageID) {
 
   //package reagards valve states, set valves accordingly
@@ -231,7 +261,14 @@ void executePackage(String packageID) {
   }
 }
 
-//sends a package to the sender, here only flightcomputer, because the commandbox does not receive packages
+/*
+ * Function: sendPackage
+ * ---------------------
+ * writes to the serial of the wanted sender, here only the flight computer
+ * since the commandbox does not receive packages from the ECU
+ * 
+ * package: the package to send
+ */
 void sendPackage(String package) {
 
   if (sender == FLIGHT_COMPUTER) {
@@ -241,7 +278,16 @@ void sendPackage(String package) {
   }
 }
 
-//assembles the different components of the package to a package
+/*
+ * Function: createPackage
+ * -----------------------
+ * assembles the different components to a package
+ * 
+ * packageID: the package ID
+ * PackageData: the package Data
+ * 
+ * return: the assembled package
+ */
 String createPackage(String packageID, String packageData) {
   package = packageID + "," + packageData + ",";
 
@@ -258,7 +304,14 @@ String createPackage(String packageID, String packageData) {
   return package;
 }
 
-//parse the package to its components
+/*
+ * Function: parsePackage
+ * ----------------------
+ * gets passed in the received string from serial and parses it to the different
+ * package components
+ * 
+ * pakcage: the passed in String
+ */
 void parsePackage(String package) {
 
   //reset globals for the package
@@ -293,7 +346,12 @@ void parsePackage(String package) {
   }
 }
 
-//read PTs
+/*
+ * Function readPTs
+ * ----------------
+ * reads the analog signal from the PTs and formats it to a 5 digit string with 0s in front.
+ * Here there are only three PTs, more can be added if needed
+ */
 void readPTs() {
 
   //read analog Data from pressure transducer
@@ -328,3 +386,6 @@ void readPTs() {
   
   sendPackage(createPackage("P2", P_2_Data_Formatted));
 }
+
+//TODO: there is no read of the temperature sensors so far, but this is can be implemented in a 
+//similiar style as the PTs
