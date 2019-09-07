@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 3.10)
+
+project(SCMLib-download NONE)
+
+include(ExternalProject)
+ExternalProject_Add(SCMLib
+  GIT_REPOSITORY    https://github.com/rocketproplab/SCMLib.git
+  GIT_TAG           master
+  SOURCE_DIR        "${CMAKE_BINARY_DIR}/SCMLib-src"
+  BINARY_DIR        "${CMAKE_BINARY_DIR}/SCMLib-build"
+  CONFIGURE_COMMAND ""
+  BUILD_COMMAND     ""
+  INSTALL_COMMAND   ""
+  TEST_COMMAND      ""
+)

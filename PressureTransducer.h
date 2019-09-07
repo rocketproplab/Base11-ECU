@@ -7,7 +7,10 @@ namespace RPL{
   class PressureTransducer {
   public:
     PressureTransducer(int id);
-    int writeValueToBuffer(const char buffer[]);
+    int writeValueToBuffer(char buffer[]);
+
+  private:
+    int id;
   };
 }
 

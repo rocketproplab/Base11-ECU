@@ -11,4 +11,4 @@ add_executable(Base11_ECU_tests ${SOURCE_FILES})
 
 set_target_properties (Base11_ECU_tests PROPERTIES LINK_FLAGS "-Wall")
 
-target_link_libraries(Base11_ECU_tests Base11_ECU_lib)
+target_link_libraries(Base11_ECU_tests Base11_ECU_lib SCMLib_lib)

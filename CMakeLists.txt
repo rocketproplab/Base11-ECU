@@ -4,6 +4,21 @@ set(CMAKE_BUILD_TYPE Debug)
 
 set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR})
 
+#download SCMLib
+configure_file(CMakeLists.txt.in
+              SCMLib-download/CMakeLists.txt)
+execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
+  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/SCMLib-download )
+execute_process(COMMAND ${CMAKE_COMMAND} --build .
+  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/SCMLib-download )
+
+add_subdirectory(${CMAKE_BINARY_DIR}/SCMLib-src
+              ${CMAKE_BINARY_DIR}/SCMLib-build)
+
+project(Base11-ECU-core)
+
+include_directories(${CMAKE_BINARY_DIR}/SCMLib-src/src)
+
 set(BASE11_ECU_INSTALL_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 set(BASE11_ECU_INSTALL_BIN_DIR ${PROJECT_SOURCE_DIR}/bin)
 set(BASE11_ECU_INSTALL_LIB_DIR ${PROJECT_SOURCE_DIR}/lib)
