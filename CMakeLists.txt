@@ -9,11 +9,13 @@ set(BASE11_ECU_INSTALL_BIN_DIR ${PROJECT_SOURCE_DIR}/bin)
 set(BASE11_ECU_INSTALL_LIB_DIR ${PROJECT_SOURCE_DIR}/lib)
 
 set(BASE11_ECU_HEADERS_DIR ${PROJECT_SOURCE_DIR})
+set(BASE11_ECU_MOCKS_DIR ${PROJECT_SOURCE_DIR}/mocks)
 
 include_directories(${BASE11_ECU_INSTALL_INCLUDE_DIR})
 include_directories(${BASE11_ECU_HEADERS_DIR})
+include_directories(${BASE11_ECU_MOCKS_DIR})
 
-file(GLOB SOURCE_FILES *.c *.cpp)
+file(GLOB SOURCE_FILES *.c *.cpp mocks/*.cpp)
 
 add_library(Base11_ECU_lib STATIC ${SOURCE_FILES})
 add_subdirectory(test)
