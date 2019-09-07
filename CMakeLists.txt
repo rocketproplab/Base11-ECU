@@ -1,0 +1,21 @@
+cmake_minimum_required(VERSION 3.2)
+
+set(CMAKE_BUILD_TYPE Debug)
+
+set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR})
+
+set(BASE11_ECU_INSTALL_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
+set(BASE11_ECU_INSTALL_BIN_DIR ${PROJECT_SOURCE_DIR}/bin)
+set(BASE11_ECU_INSTALL_LIB_DIR ${PROJECT_SOURCE_DIR}/lib)
+
+set(BASE11_ECU_HEADERS_DIR ${PROJECT_SOURCE_DIR})
+
+include_directories(${BASE11_ECU_INSTALL_INCLUDE_DIR})
+include_directories(${BASE11_ECU_HEADERS_DIR})
+
+file(GLOB SOURCE_FILES *.c *.cpp)
+
+add_library(Base11_ECU_lib STATIC ${SOURCE_FILES})
+add_subdirectory(test)
+
+add_test (NAME all COMMAND Base11_ECU_tests)
