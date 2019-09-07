@@ -1,0 +1,3 @@
+[submodule "libraries/SCMLib"]
+	path = libraries/SCMLib
+	url = https://github.com/rocketproplab/SCMLib.git
