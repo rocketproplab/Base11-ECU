@@ -6,6 +6,7 @@ namespace RPL {
     void resetPins();
     void setAnalogWrite(int pin, int value);
     int analogRead(int pin);
+    int getDigitalPin(int pin);
   }
 }
 
