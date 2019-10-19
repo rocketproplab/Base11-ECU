@@ -28,3 +28,9 @@ int Mocks::getDigitalPin(int pin){
   }
   return -1;
 }
+
+void Mocks::digitalWrite(int pin, int value){
+  if(pin >=0 && pin < (sizeof(digitalStates)/sizeof(digitalStates[0]))){
+    digitalStates[pin] = value;
+  }
+}
