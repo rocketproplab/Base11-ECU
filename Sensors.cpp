@@ -1,14 +1,14 @@
-#include "Sampler.h"
+#include "Sensors.h"
 #include "SCMPacket.h"
 
 using namespace RPL;
 
-Sampler::Sampler():
+Sensors::Sensors():
 ptUpdateCount(1){
 
 }
 
-void Sampler::tick(){
+void Sensors::tick(){
   unsigned long currentTime = millis();
   unsigned long wantedTime = ptUpdateCount*Settings::PT_UPDATE_RATE;
   if(currentTime > wantedTime){
@@ -19,7 +19,7 @@ void Sampler::tick(){
   }
 }
 
-void Sampler::writePTToSerials(int ptIndex){
+void Sensors::writePTToSerials(int ptIndex){
   PressureTransducer &pt = this->pts[ptIndex];
   char buffer[RPL::SCM_PACKET_LEN];
   pt.aquire();

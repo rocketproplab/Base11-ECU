@@ -13,6 +13,7 @@ namespace RPL{
     const int PT_PIN_MAP[] = {0, 1, 2, 3, 4, 5, 6, 7};
     const size_t PT_PIN_MAP_LEN = sizeof(PT_PIN_MAP)/sizeof(PT_PIN_MAP[0]);
     const int PT_UPDATE_RATE = 1000;
+    const int PT_OVERSAMPLE_MULTIPLIER = 10;
   }
 }
 
