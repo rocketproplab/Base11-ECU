@@ -9,8 +9,7 @@ namespace RPL {
     MU_TEST(valves_in_block_toggled_when_packet_recived){
       Mocks::resetPins();
       SCMPacket packet("V0", "11111");
-      Valves valves;
-      valves.updateValveState(packet);
+      Valves::updateValveState(packet);
       mu_assert_int_eq(1, Mocks::getDigitalPin(Settings::VALVE_MAP[0]));
       mu_assert_int_eq(1, Mocks::getDigitalPin(Settings::VALVE_MAP[1]));
       mu_assert_int_eq(1, Mocks::getDigitalPin(Settings::VALVE_MAP[2]));
@@ -21,8 +20,7 @@ namespace RPL {
     MU_TEST(valves_in_block_two_toggled_when_block_two_packet_recived){
       Mocks::resetPins();
       SCMPacket packet("V1", "11111");
-      Valves valves;
-      valves.updateValveState(packet);
+      Valves::updateValveState(packet);
       mu_assert_int_eq(0, Mocks::getDigitalPin(Settings::VALVE_MAP[0]));
       mu_assert_int_eq(0, Mocks::getDigitalPin(Settings::VALVE_MAP[1]));
       mu_assert_int_eq(0, Mocks::getDigitalPin(Settings::VALVE_MAP[2]));
