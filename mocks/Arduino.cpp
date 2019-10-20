@@ -3,13 +3,13 @@
 using namespace RPL;
 
 int analogStates[16]; //16 analog pins
-int digitalStates[52];
+int digitalStates[Mocks::DIGITAL_PIN_COUNT];
 
 void Mocks::resetPins(){
   for(int i = 0; i<sizeof(analogStates)/sizeof(analogStates[0]); i++){
     analogStates[i] = 0;
   }
-  for(int i = 0; i<sizeof(digitalStates)/sizeof(digitalStates[0]); i++){
+  for(int i = 0; i<DIGITAL_PIN_COUNT; i++){
     digitalStates[i] = 0;
   }
 }
@@ -23,14 +23,14 @@ int Mocks::analogRead(int pin){
 }
 
 int Mocks::getDigitalPin(int pin){
-  if(pin >=0 && pin < (sizeof(digitalStates)/sizeof(digitalStates[0]))){
+  if(pin >=0 && pin < DIGITAL_PIN_COUNT){
     return digitalStates[pin];
   }
   return -1;
 }
 
 void Mocks::digitalWrite(int pin, int value){
-  if(pin >=0 && pin < (sizeof(digitalStates)/sizeof(digitalStates[0]))){
+  if(pin >=0 && pin < DIGITAL_PIN_COUNT){
     digitalStates[pin] = value;
   }
 }
