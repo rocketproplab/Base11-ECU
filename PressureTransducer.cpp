@@ -24,7 +24,7 @@ int PressureTransducer::writeValueToBuffer(char buffer[]){
     data[4-i] = '0' + analogValue%10;
     analogValue /= 10;
   }
-  
+
   SCMPacket packet(packetId, data);
   packet.write(buffer);
   return originalAnalogValue;

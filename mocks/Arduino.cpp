@@ -46,3 +46,13 @@ void MockSerial::resetSerials(){
   Serial2.reset();
   Serial3.reset();
 }
+
+unsigned long millisValue;
+
+unsigned long Mocks::millis(){
+  return millisValue;
+}
+
+void Mocks::setMillis(unsigned long newValue){
+  millisValue = newValue;
+}

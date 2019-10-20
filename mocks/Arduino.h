@@ -10,6 +10,9 @@ namespace RPL {
     int getDigitalPin(int pin);
     void digitalWrite(int pin, int value);
     const int DIGITAL_PIN_COUNT = 52;
+
+    unsigned long millis();
+    void setMillis(unsigned long);
   }
   namespace MockConstants {
     const int HIGH = 1;
@@ -27,6 +30,7 @@ namespace RPL {
 
 using RPL::Mocks::analogRead;
 using RPL::Mocks::digitalWrite;
+using RPL::Mocks::millis;
 using RPL::MockConstants::HIGH;
 using RPL::MockConstants::LOW;
 

@@ -20,6 +20,5 @@ void Valves::updateValveState(SCMPacket &packet){
     } else {
       digitalWrite(valvePin, LOW);
     }
-
   }
 }
