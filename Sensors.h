@@ -2,6 +2,7 @@
 #define SENSORS_H
 #include "PressureTransducer.h"
 #include "Settings.h"
+#include "Sampler.h"
 
 namespace RPL{
 class Sensors{
@@ -10,10 +11,8 @@ public:
   void tick();
 
 private:
-  PressureTransducer pts[Settings::PT_PIN_MAP_LEN];
-  unsigned long ptUpdateCount;
+  Sampler<PressureTransducer, Settings::PT_PIN_MAP_LEN> ptSampler;
 
-  void writePTToSerials(int ptIndex);
 };
 }
 

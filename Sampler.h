@@ -2,6 +2,7 @@
 #define SAMPLER_H
 #include "PressureTransducer.h"
 #include "Settings.h"
+#include "SCMPacket.h"
 
 namespace RPL{
 
@@ -25,7 +26,7 @@ public:
     unsigned long sampleTime = (this->sampleCount+1)*this->updateRate;
     sampleTime /= this->sampleRate;
     sampleTime += (this->updateCount) * this->updateRate;
-    
+
     if(currentTime >= writeTime){
       this->updateCount++;
       this->sampleCount = 0;
