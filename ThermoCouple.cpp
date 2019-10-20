@@ -3,9 +3,23 @@
 
 using namespace RPL;
 
-ThermoCouple::ThermoCouple(int id, int clkPin, int csPin, int doPin) :
+ThermoCouple::ThermoCouple():ThermoCouple(0){
+
+}
+
+ThermoCouple::ThermoCouple(int id) : ThermoCouple(id, Settings::TC_CS_MAP[id]){
+
+}
+
+ThermoCouple::ThermoCouple(int id, int csPin) : ThermoCouple(id,
+  Settings::TC_CLK_PIN, csPin, Settings::TC_DO_PIN){
+}
+
+ThermoCouple::ThermoCouple(int id, int clkPin,int csPin, int doPin) :
   id(id),
-  thermoCouple(clkPin, csPin, doPin) {
+  thermoCouple(clkPin, csPin, doPin),
+  accumulator(0),
+  accumulatorCount(0) {
 
 }
 
@@ -20,7 +34,10 @@ float ThermoCouple::writeValueToBuffer(char buffer[]){
     packetId[1] = 'A' + (this->id-10);
   }
 
-  float temperature = this->thermoCouple.readInternal();
+  float temperature = 0;
+  if(this->accumulatorCount != 0){
+    temperature = this->accumulator / this->accumulatorCount;
+  }
   this->writeFloatToBuffer(temperature, data);
 
   SCMPacket packet(packetId, data);
@@ -57,4 +74,14 @@ void ThermoCouple::writeFloatToBuffer(float toWrite, char buffer[]){
     buffer[4-i] = '0' + fixedPointInt%10;
     fixedPointInt /= 10;
   }
+}
+
+void ThermoCouple::aquire(){
+  this->accumulator += this->thermoCouple.readInternal();
+  this->accumulatorCount++;
+}
+
+void ThermoCouple::resetAccumulator(){
+  this->accumulator = 0;
+  this->accumulatorCount = 0;
 }

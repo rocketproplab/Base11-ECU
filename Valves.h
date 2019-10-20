@@ -4,10 +4,9 @@
 #include <SCMPacket.h>
 
 namespace RPL{
-class Valves{
-public:
+namespace Valves{
   void updateValveState(SCMPacket &packet);
-};
+}
 }
 
 #endif
