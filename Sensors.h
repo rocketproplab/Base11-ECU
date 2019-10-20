@@ -1,5 +1,5 @@
-#ifndef SAMPLER_H
-#define SAMPLER_H
+#ifndef SENSORS_H
+#define SENSORS_H
 #include "PressureTransducer.h"
 #include "Settings.h"
 
