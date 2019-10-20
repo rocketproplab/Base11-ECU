@@ -3,7 +3,7 @@
 
 namespace RPL{
 namespace Mocks {
-  const int STREAM_DATA_LEN = 100;
+  const int STREAM_DATA_LEN = 200;
 class Stream{
 public:
   Stream();

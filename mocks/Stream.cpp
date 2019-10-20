@@ -3,8 +3,6 @@
 using namespace RPL::Mocks;
 
 Stream::Stream() :
-writeBuffer({0}),
-readBuffer({0}),
 writeIndex(0),
 readIndex(0),
 avaliableCount(0) {

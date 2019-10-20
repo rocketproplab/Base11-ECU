@@ -3,7 +3,19 @@
 
 using namespace RPL;
 
-ThermoCouple::ThermoCouple(int id, int clkPin, int csPin, int doPin) :
+ThermoCouple::ThermoCouple():ThermoCouple(0){
+
+}
+
+ThermoCouple::ThermoCouple(int id) : ThermoCouple(id, Settings::TC_CS_MAP[id]){
+
+}
+
+ThermoCouple::ThermoCouple(int id, int csPin) : ThermoCouple(id,
+  Settings::TC_CLK_PIN, csPin, Settings::TC_DO_PIN){
+}
+
+ThermoCouple::ThermoCouple(int id, int clkPin,int csPin, int doPin) :
   id(id),
   thermoCouple(clkPin, csPin, doPin),
   accumulator(0),
