@@ -22,6 +22,8 @@ void Sampler::tick(){
 void Sampler::writePTToSerials(int ptIndex){
   PressureTransducer &pt = this->pts[ptIndex];
   char buffer[RPL::SCM_PACKET_LEN];
+  pt.aquire();
   pt.writeValueToBuffer(buffer);
   Settings::FCB_STREAM->write((uint8_t*)buffer, RPL::SCM_PACKET_LEN);
+  pt.resetAccumulator();
 }

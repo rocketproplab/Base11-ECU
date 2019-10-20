@@ -3,14 +3,20 @@
 
 using namespace RPL;
 
-PressureTransducer::PressureTransducer(int id) : id(id){
+PressureTransducer::PressureTransducer(int id) :
+id(id),
+sum(0),
+accumulatorCount(0){
 
 }
 
 int PressureTransducer::writeValueToBuffer(char buffer[]){
   char packetId[2];
   char data[5];
-  int analogValue = analogRead(this->id);
+  int analogValue = 0;
+  if(this->accumulatorCount != 0){
+    analogValue = this->sum/this->accumulatorCount;
+  }
   int originalAnalogValue = analogValue;
 
   packetId[0] = 'P';
@@ -28,4 +34,14 @@ int PressureTransducer::writeValueToBuffer(char buffer[]){
   SCMPacket packet(packetId, data);
   packet.write(buffer);
   return originalAnalogValue;
+}
+
+void PressureTransducer::aquire(){
+  this->sum += analogRead(this->id);
+  this->accumulatorCount ++;
+}
+
+void PressureTransducer::resetAccumulator(){
+  this->sum = 0;
+  this->accumulatorCount = 0;
 }
