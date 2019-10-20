@@ -1,5 +1,6 @@
 #pragma once
 #include "MemTypes.h"
+#include "Stream.h"
 
 namespace RPL {
   namespace Mocks {
@@ -12,8 +13,21 @@ namespace RPL {
   namespace MockConstants {
     const int HIGH = 1;
   }
+  namespace MockSerial {
+    extern Stream Serial;
+    extern Stream Serial1;
+    extern Stream Serial2;
+    extern Stream Serial3;
+
+    void resetSerials();
+  }
 }
 
 using RPL::Mocks::analogRead;
 using RPL::Mocks::digitalWrite;
 using RPL::MockConstants::HIGH;
+
+using RPL::MockSerial::Serial;
+using RPL::MockSerial::Serial1;
+using RPL::MockSerial::Serial2;
+using RPL::MockSerial::Serial3;

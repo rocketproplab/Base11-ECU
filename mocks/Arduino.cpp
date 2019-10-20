@@ -34,3 +34,15 @@ void Mocks::digitalWrite(int pin, int value){
     digitalStates[pin] = value;
   }
 }
+
+Stream RPL::MockSerial::Serial;
+Stream RPL::MockSerial::Serial1;
+Stream RPL::MockSerial::Serial2;
+Stream RPL::MockSerial::Serial3;
+
+void MockSerial::resetSerials(){
+  Serial.reset();
+  Serial1.reset();
+  Serial2.reset();
+  Serial3.reset();
+}
