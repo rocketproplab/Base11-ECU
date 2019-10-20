@@ -10,9 +10,14 @@ namespace RPL{
     ThermoCouple(int id, int clkPin, int csPin, int doPin);
     float writeValueToBuffer(char buffer[]);
 
+    void aquire();
+    void resetAccumulator();
+
   private:
     int id;
     Adafruit_MAX31855 thermoCouple;
+    float accumulator;
+    int accumulatorCount;
 
     void writeFloatToBuffer(float toWrite, char buffer[]);
   };
