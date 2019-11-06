@@ -6,6 +6,7 @@
 namespace RPL{
 namespace Valves{
   void updateValveState(SCMPacket &packet);
+  void initPinModes();
 }
 }
 

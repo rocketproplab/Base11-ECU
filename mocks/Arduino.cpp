@@ -4,6 +4,7 @@ using namespace RPL;
 
 int analogStates[16]; //16 analog pins
 int digitalStates[Mocks::DIGITAL_PIN_COUNT];
+int pinModeStates[Mocks::DIGITAL_PIN_COUNT];
 
 void Mocks::resetPins(){
   for(int i = 0; i<sizeof(analogStates)/sizeof(analogStates[0]); i++){
@@ -11,6 +12,7 @@ void Mocks::resetPins(){
   }
   for(int i = 0; i<DIGITAL_PIN_COUNT; i++){
     digitalStates[i] = 0;
+    pinModeStates[i] = MockConstants::NOT_DEFINED;
   }
 }
 
@@ -26,7 +28,7 @@ int Mocks::getDigitalPin(int pin){
   if(pin >=0 && pin < DIGITAL_PIN_COUNT){
     return digitalStates[pin];
   }
-  return -1;
+  return MockConstants::NOT_DEFINED;
 }
 
 void Mocks::digitalWrite(int pin, int value){
@@ -35,10 +37,10 @@ void Mocks::digitalWrite(int pin, int value){
   }
 }
 
-Stream RPL::MockSerial::Serial;
-Stream RPL::MockSerial::Serial1;
-Stream RPL::MockSerial::Serial2;
-Stream RPL::MockSerial::Serial3;
+HardwareSerial RPL::MockSerial::Serial;
+HardwareSerial RPL::MockSerial::Serial1;
+HardwareSerial RPL::MockSerial::Serial2;
+HardwareSerial RPL::MockSerial::Serial3;
 
 void MockSerial::resetSerials(){
   Serial.reset();
@@ -55,4 +57,17 @@ unsigned long Mocks::millis(){
 
 void Mocks::setMillis(unsigned long newValue){
   millisValue = newValue;
+}
+
+void Mocks::pinMode(int pin, int value){
+  if(pin >=0 && pin < DIGITAL_PIN_COUNT){
+    pinModeStates[pin] = value;
+  }
+}
+
+int Mocks::getPinmode(int pin){
+  if(pin >=0 && pin < DIGITAL_PIN_COUNT){
+    return pinModeStates[pin];
+  }
+  return MockConstants::NOT_DEFINED;
 }
