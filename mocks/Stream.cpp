@@ -5,7 +5,8 @@ using namespace RPL::Mocks;
 Stream::Stream() :
 writeIndex(0),
 readIndex(0),
-avaliableCount(0) {
+avaliableCount(0),
+rate(0) {
 
 }
 
@@ -43,8 +44,17 @@ int Stream::avaliable(){
   return this->avaliableCount;
 }
 
+void Stream::begin(int rate){
+  this->rate = rate;
+}
+
+int Stream::getRate(){
+  return this->rate;
+}
+
 void Stream::reset(){
   this->readIndex = 0;
   this->writeIndex = 0;
   this->avaliableCount = 0;
+  this->rate = 0;
 }
