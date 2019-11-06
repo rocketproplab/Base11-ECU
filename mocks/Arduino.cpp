@@ -37,10 +37,10 @@ void Mocks::digitalWrite(int pin, int value){
   }
 }
 
-Stream RPL::MockSerial::Serial;
-Stream RPL::MockSerial::Serial1;
-Stream RPL::MockSerial::Serial2;
-Stream RPL::MockSerial::Serial3;
+HardwareSerial RPL::MockSerial::Serial;
+HardwareSerial RPL::MockSerial::Serial1;
+HardwareSerial RPL::MockSerial::Serial2;
+HardwareSerial RPL::MockSerial::Serial3;
 
 void MockSerial::resetSerials(){
   Serial.reset();

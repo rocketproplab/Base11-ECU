@@ -40,7 +40,7 @@ uint8_t Stream::read(){
   return readData;
 }
 
-int Stream::avaliable(){
+int Stream::available(){
   return this->avaliableCount;
 }
 

@@ -10,7 +10,7 @@ public:
   virtual void write(uint8_t);
   void write(uint8_t*, size_t);
   virtual uint8_t read();
-  virtual int avaliable();
+  virtual int available();
   void begin(int rate);
 
   void setReadableData(const char * data, size_t len);
@@ -25,8 +25,12 @@ public:
   int avaliableCount;
   int rate;
 };
+class HardwareSerial : public Stream{
+
+};
 }
 }
 
 
 using RPL::Mocks::Stream;
+using RPL::Mocks::HardwareSerial;

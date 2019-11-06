@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ECU_H
+#define ECU_H
 #include "Sensors.h"
 #include "SCMParser.h"
 #include "PacketRouter.h"
@@ -14,3 +15,4 @@ public:
   void tick();
 };
 }
+#endif

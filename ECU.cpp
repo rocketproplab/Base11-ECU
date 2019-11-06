@@ -6,10 +6,10 @@
 using namespace RPL;
 
 ECU::ECU() :
-fcbParser([] {return Settings::FCB_STREAM->avaliable();},
+fcbParser([] {return Settings::FCB_STREAM->available();},
   [] {return (char)Settings::FCB_STREAM->read();},
   PacketRouter::onFCBPacket),
-commandBoxParser([] {return Settings::COMMAND_BOX_STREAM->avaliable();},
+commandBoxParser([] {return Settings::COMMAND_BOX_STREAM->available();},
   [] {return (char)Settings::COMMAND_BOX_STREAM->read();},
   PacketRouter::onCommandBoxPacket){
 

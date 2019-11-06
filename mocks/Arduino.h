@@ -25,10 +25,10 @@ namespace RPL {
     const int NOT_DEFINED = -1;
   }
   namespace MockSerial {
-    extern Stream Serial;
-    extern Stream Serial1;
-    extern Stream Serial2;
-    extern Stream Serial3;
+    extern HardwareSerial Serial;
+    extern HardwareSerial Serial1;
+    extern HardwareSerial Serial2;
+    extern HardwareSerial Serial3;
 
     void resetSerials();
   }

@@ -7,8 +7,8 @@ namespace RPL{
   namespace Settings{
     const int VALVE_MAP[] = {0, 1, 10, 3, 4, 5, 6, 7};
     const size_t VALVE_MAP_LEN = sizeof(VALVE_MAP)/sizeof(VALVE_MAP[0]);
-    Stream * const FCB_STREAM = &Serial;
-    Stream * const COMMAND_BOX_STREAM = &Serial1;
+    HardwareSerial * const FCB_STREAM = &Serial;
+    HardwareSerial * const COMMAND_BOX_STREAM = &Serial1;
     const int SERIAL_RATE = 115200;
 
     const int PT_PIN_MAP[] = {0, 1, 2, 3, 4, 5, 6, 7};
