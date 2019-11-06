@@ -22,3 +22,9 @@ void Valves::updateValveState(SCMPacket &packet){
     }
   }
 }
+
+void Valves::initPinModes(){
+  for(size_t i = 0; i<Settings::VALVE_MAP_LEN; i++){
+    pinMode(Settings::VALVE_MAP[i], OUTPUT);
+  }
+}

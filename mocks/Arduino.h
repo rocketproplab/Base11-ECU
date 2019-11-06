@@ -13,10 +13,16 @@ namespace RPL {
 
     unsigned long millis();
     void setMillis(unsigned long);
+
+    int getPinmode(int pin);
+    void pinMode(int pin, int direction);
   }
   namespace MockConstants {
     const int HIGH = 1;
     const int LOW = 0;
+    const int OUTPUT = 1;
+    const int INPUT = 0;
+    const int NOT_DEFINED = -1;
   }
   namespace MockSerial {
     extern Stream Serial;
@@ -31,8 +37,11 @@ namespace RPL {
 using RPL::Mocks::analogRead;
 using RPL::Mocks::digitalWrite;
 using RPL::Mocks::millis;
+using RPL::Mocks::pinMode;
 using RPL::MockConstants::HIGH;
 using RPL::MockConstants::LOW;
+using RPL::MockConstants::OUTPUT;
+using RPL::MockConstants::INPUT;
 
 using RPL::MockSerial::Serial;
 using RPL::MockSerial::Serial1;
